@@ -49,22 +49,28 @@ class HomeController extends GetxController {
         FlutterBluetoothSerial.instance.startDiscovery().listen((r) {
       if (r.device.name!.startsWith('SR01')) {
         Get.snackbar("Hi", "Pebble1 Found");
+        print('Pebble1 Address-----${r.device.address}');
         BluetoothConnection.toAddress(r.device.address).then((value) {
+          print('Pebble1 connection ------${value.isConnected}');
           value.output.add(ascii.encode("COM 090002550003000"));
           value.output.add(ascii.encode("DEL 05000"));
           value.output.add(ascii.encode("WRD pebble1_"));
           value.input!.listen((event) {
+            print('pebble1 input------${String.fromCharCodes(event)}');
             Get.snackbar("Income", event.toString());
           });
         });
       } else if (r.device.name!.startsWith('SR02')) {
         Get.snackbar("Hi", "Pebble2 Found");
-        BluetoothDevice device = r.device;
+        print('Pebble2 Address-----${r.device.address}');
+
         BluetoothConnection.toAddress(r.device.address).then((value) {
+          print('Pebble2 connection ------${value.isConnected}');
           value.output.add(ascii.encode("COM 090002550003000"));
           value.output.add(ascii.encode("DEL 05000"));
           value.output.add(ascii.encode("WRD pebble2_"));
           value.input!.listen((event) {
+            print('pebble2 input------${String.fromCharCodes(event)}');
             Get.snackbar("Income", event.toString());
           });
         });
